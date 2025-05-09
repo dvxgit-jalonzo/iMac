@@ -2,14 +2,41 @@ using iMac.Classes;
 
 namespace iMac
 {
-
     public partial class MainForm : Form
     {
+        private NotifyIcon trayIcon;
+        private ContextMenuStrip trayMenu;
+        private bool allowClose = false;
+
         private readonly Serial _serial;
         public MainForm()
         {
             InitializeComponent();
+            _serial = new Serial(UpdateRichTextBox);
+
+            // Run this method when the form is about to close
+            this.FormClosing += MainForm_FormClosing;
+
+            // Run this method when the form is resized (e.g. minimized)
+            this.Resize += MainForm_Resize;
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!allowClose)
+            {
+                e.Cancel = true;
+                Hide(); // Just hide to tray
+            }
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide(); // Hides the window and keeps app running in tray
+            }
             _serial = new Serial(UpdateRichTextBox, this);
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)

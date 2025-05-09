@@ -75,11 +75,42 @@
             WindowState = FormWindowState.Maximized;
             Load += MainForm_Load;
             ResumeLayout(false);
+
+            // Create a context menu for the tray icon
+            trayMenu = new ContextMenuStrip();
+
+            // Add a "Restore" option to bring the window back from the tray
+            trayMenu.Items.Add("Restore", null, (s, e) => { ShowForm(); });
+
+            // Add an "Exit" option to close the app
+            trayMenu.Items.Add("Exit", null, (s, e) => {
+                allowClose = true; // Allow the form to close without being canceled
+                Close();           // Close the application
+            });
+
+            // Set up the tray icon (system tray notification icon)
+            trayIcon = new NotifyIcon()
+            {
+                Text = "iMac App",                 // Tooltip text
+                Icon = SystemIcons.Application,    // Default application icon (can be replaced with custom .ico)
+                ContextMenuStrip = trayMenu,       // Attach the context menu to the icon
+                Visible = true                     // Make the icon visible in the system tray
+            };
+
+            // Restore the window when the tray icon is double-clicked
+            trayIcon.DoubleClick += (s, e) => { ShowForm(); };
         }
 
         #endregion
         private Button startSerialPort;
         private RichTextBox logger;
+        private void ShowForm()
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            BringToFront();
+        }
+
         public Label alert;
     }
 }
