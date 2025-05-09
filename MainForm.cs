@@ -8,11 +8,11 @@ namespace iMac
         private ContextMenuStrip trayMenu;
         private bool allowClose = false;
 
-        private readonly Serial _serial;
+        private Serial _serial;
         public MainForm()
         {
             InitializeComponent();
-            _serial = new Serial(UpdateRichTextBox);
+            _serial = new Serial(UpdateRichTextBox, this);
 
             // Run this method when the form is about to close
             this.FormClosing += MainForm_FormClosing;
