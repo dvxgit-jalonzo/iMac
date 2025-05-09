@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             logger = new RichTextBox();
-            DataToSend = new RichTextBox();
+            alert = new Label();
             SuspendLayout();
             // 
             // logger
@@ -45,24 +45,27 @@
             logger.Text = "";
             logger.TextChanged += logger_TextChanged;
             // 
-            // DataToSend
+            // alert
             // 
-            DataToSend.BorderStyle = BorderStyle.None;
-            DataToSend.Dock = DockStyle.Right;
-            DataToSend.Location = new Point(607, 0);
-            DataToSend.Name = "DataToSend";
-            DataToSend.Size = new Size(193, 304);
-            DataToSend.TabIndex = 2;
-            DataToSend.Text = "";
-            DataToSend.TextChanged += DataToSend_TextChanged;
-            DataToSend.KeyDown += DataToSend_KeyDown;
+            alert.BackColor = Color.Red;
+            alert.Dock = DockStyle.Fill;
+            alert.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            alert.ForeColor = Color.White;
+            alert.Location = new Point(0, 0);
+            alert.Name = "alert";
+            alert.Size = new Size(800, 304);
+            alert.TabIndex = 2;
+            alert.Text = "Alarm Triggered in Cabin 101";
+            alert.TextAlign = ContentAlignment.MiddleCenter;
+            alert.Visible = false;
+            alert.Click += alert_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(DataToSend);
+            Controls.Add(alert);
             Controls.Add(logger);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MinimizeBox = false;
@@ -100,14 +103,14 @@
 
         #endregion
         private Button startSerialPort;
-        private Label label1;
         private RichTextBox logger;
-        private RichTextBox DataToSend;
         private void ShowForm()
         {
             Show();
             WindowState = FormWindowState.Normal;
             BringToFront();
         }
+
+        public Label alert;
     }
 }
