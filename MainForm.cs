@@ -35,7 +35,6 @@ namespace iMac
             {
                 Hide(); // Hides the window and keeps app running in tray
             }
-            _serial = new Serial(UpdateRichTextBox, this);
 
         }
 

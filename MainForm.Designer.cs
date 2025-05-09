@@ -109,6 +109,7 @@
             Show();
             WindowState = FormWindowState.Normal;
             BringToFront();
+            Activate(); // Ensures the form gets focus
         }
 
         public Label alert;
