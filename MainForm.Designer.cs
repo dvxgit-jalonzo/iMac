@@ -80,13 +80,12 @@
             trayMenu = new ContextMenuStrip();
 
             // Add a "Restore" option to bring the window back from the tray
-            trayMenu.Items.Add("Restore", null, (s, e) => { ShowForm(); });
+            // In InitializeComponent():
+            trayMenu.Items.Add("Restore", null, RestoreClick);
+
 
             // Add an "Exit" option to close the app
-            trayMenu.Items.Add("Exit", null, (s, e) => {
-                allowClose = true; // Allow the form to close without being canceled
-                Close();           // Close the application
-            });
+            trayMenu.Items.Add("Exit", null, ExitClick);
 
             // Set up the tray icon (system tray notification icon)
             trayIcon = new NotifyIcon()
@@ -98,7 +97,19 @@
             };
 
             // Restore the window when the tray icon is double-clicked
-            trayIcon.DoubleClick += (s, e) => { ShowForm(); };
+            trayIcon.DoubleClick += RestoreClick;
+        }
+
+        // Elsewhere in the form class:
+        private void RestoreClick(object sender, EventArgs e)
+        {
+            ShowForm();
+        }
+
+        private void ExitClick(object sender, EventArgs e)
+        {
+            allowClose = true; // Allow the form to close without being canceled
+            Close();           // Close the application
         }
 
         #endregion
@@ -109,6 +120,7 @@
             Show();
             WindowState = FormWindowState.Normal;
             BringToFront();
+            Activate(); // Ensures the form gets focus
         }
 
         public Label alert;
